@@ -3,25 +3,23 @@ package ru.korotich.springcourse.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.korotich.springcourse.model.User;
-import ru.korotich.springcourse.service.UserService;
+import ru.korotich.springcourse.service.UserServiceImp;
 
 import java.util.List;
-
+@RequestMapping("/users")
 @Controller
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImp userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserServiceImp userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping()
     public String findAll(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
@@ -40,9 +38,17 @@ public class UserController {
         return "redirect:/users";
     }
 
+
     @GetMapping("user-delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        userService.deleteById(id);
+    public String deleteUserForm(@PathVariable("id") Long id, Model model) {
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+        return "user-delete";
+    }
+
+    @PostMapping("/user-delete")
+    public String deleteUser(User user) {
+        userService.deleteById(user.getId());
         return "redirect:/users";
     }
 
