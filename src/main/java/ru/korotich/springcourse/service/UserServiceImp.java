@@ -16,12 +16,12 @@ public class UserServiceImp implements UserService {
     public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
+    @Transactional(readOnly = true)
     public User findById (Long id){
         return userRepository.getReferenceById(id);
     }
 
-
+    @Transactional(readOnly = true)
     public List<User> findAll() {
         return userRepository.findAll();
     }

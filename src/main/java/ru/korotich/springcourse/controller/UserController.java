@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.korotich.springcourse.model.User;
+import ru.korotich.springcourse.service.UserService;
 import ru.korotich.springcourse.service.UserServiceImp;
 
 import java.util.List;
@@ -12,10 +13,9 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    private final UserServiceImp userService;
-
+    private final UserService userService;
     @Autowired
-    public UserController(UserServiceImp userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
